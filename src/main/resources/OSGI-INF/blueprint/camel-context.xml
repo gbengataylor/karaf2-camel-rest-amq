@@ -76,6 +76,7 @@
             <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
                 <method method="generateFileName" ref="orderGenerator"/>
             </setHeader>
+            <log id="route-generate" message="Generated Ordered"/>
             <to id="route-to-jms-input" uri="file:work/jms/input"/>
         </route>
 
@@ -91,7 +92,7 @@
     -->
         <route id="file-to-jms-route">
             <from id="route-from-jms-input" uri="file:work/jms/input"/>
-            <log id="route-log-order" message="Receiving order ${file:name}"/>
+            <log id="route-log-order" message="Receiving order ${file:name}, routing to AMQ"/>
             <to id="route-to-incoming-orders" uri="activemq:incomingOrders"/>
         </route>
 
@@ -106,6 +107,7 @@
     -->
         <route id="jms-cbr-route" streamCache="true">
             <from id="route-from-incoming-orders" uri="activemq:incomingOrders"/>
+            <log id="route-log-incoming-order" message="Received Order from Queue"/>
             <choice id="route-choice-country">
                 <when id="route-when-uk">
                     <xpath>/order/customer/country = 'UK'</xpath>
