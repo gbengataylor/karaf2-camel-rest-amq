@@ -72,12 +72,15 @@
         <!-- a route to generate a random order every 5th second -->
         <route id="generate-order">
             <from id="route-timer" uri="direct:generate"/>
-            <bean id="route-generate-order" method="generateOrder" ref="orderGenerator"/>
+            <bean id="route-generate-order" method="generateOrder" ref="orderGenerator"/>          
             <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
                 <method method="generateFileName" ref="orderGenerator"/>
             </setHeader>
-            <log id="route-generate" message="Generated Ordered"/>
+            <log id="route-generate" message="Generated Order"/>
             <to id="route-to-jms-input" uri="file:work/jms/input"/>
+            <setBody id="generate-order-set-body">
+                <simple>Generated Order  ${file:name} !</simple>
+            </setBody>               
         </route>
 
         <!--
@@ -105,6 +108,7 @@
       moved to a directory for that country. The <otherwise/> element ensures that any file that does not meet the
       requirements for either of the <when/> elements will be moved to the work/jms/output/others directory.
     -->
+         <!--
         <route id="jms-cbr-route" streamCache="true">
             <from id="route-from-incoming-orders" uri="activemq:incomingOrders"/>
             <log id="route-log-incoming-order" message="Received Order from Queue"/>
@@ -126,6 +130,7 @@
             </choice>
             <log id="route-final-log" message="Done processing ${file:name}"/>
         </route>
+-->
 
     </camelContext>
 </blueprint>
