@@ -71,6 +71,8 @@ Create the following environment variables. Make the appropriate modifications
 
     export GIT_REPO_CAMEL_AMQ=https://github.com/gbengataylor/karaf2-camel-rest-amq.git
 
+    export OPENSHIFT_BROKER_APPLICATION_NAME=broker
+
     export IMAGE_BUILD_VERSION=2.0
 
 Deploy the camel route
